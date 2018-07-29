@@ -23,8 +23,6 @@
 		A0F1BBD9210D70FB00DE6864 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F1BBD8210D70FB00DE6864 /* ViewController.swift */; };
 		A0F1BBDB210D70FC00DE6864 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0F1BBDA210D70FC00DE6864 /* Assets.xcassets */; };
 		A0F1BBDE210D70FC00DE6864 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0F1BBDC210D70FC00DE6864 /* Main.storyboard */; };
-		A0F1BBE5210D71FD00DE6864 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A0F8E416210D6AC100D9D8CC /* Info.plist */; };
-		A0F1BBE7210D72D600DE6864 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A0F1BBDF210D70FC00DE6864 /* Info.plist */; };
 		A0F8E40B210D6AC000D9D8CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8E40A210D6AC000D9D8CC /* AppDelegate.swift */; };
 		A0F8E40D210D6AC000D9D8CC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8E40C210D6AC000D9D8CC /* ViewController.swift */; };
 		A0F8E412210D6AC100D9D8CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0F8E411210D6AC100D9D8CC /* Assets.xcassets */; };
@@ -333,7 +331,6 @@
 			files = (
 				A0F1BBDB210D70FC00DE6864 /* Assets.xcassets in Resources */,
 				A0F1BBDE210D70FC00DE6864 /* Main.storyboard in Resources */,
-				A0F1BBE7210D72D600DE6864 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,7 +340,6 @@
 			files = (
 				A0F8E415210D6AC100D9D8CC /* LaunchScreen.storyboard in Resources */,
 				A0F8E412210D6AC100D9D8CC /* Assets.xcassets in Resources */,
-				A0F1BBE5210D71FD00DE6864 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,7 +415,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -436,6 +432,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.smolster.RemoteDebugger-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -449,7 +446,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -466,6 +463,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.smolster.RemoteDebugger-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -479,7 +477,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -498,6 +496,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.smolster.RemoteDebugger-macOS";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
@@ -511,7 +510,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -530,6 +529,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.smolster.RemoteDebugger-macOS";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;

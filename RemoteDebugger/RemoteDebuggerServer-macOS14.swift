@@ -62,7 +62,7 @@ final public class RemoteDebuggerServer<State: Codable> {
                 self.decoder.decode(data)
                 self.receive(on: connection)
             } else if let error = error {
-                print("Encountered error in receiving data. Error: \(error). Context: \(context)")
+                print("Encountered error in receiving data. Error: \(error). Context: \(context.debugDescription)")
             }
         }
     }
