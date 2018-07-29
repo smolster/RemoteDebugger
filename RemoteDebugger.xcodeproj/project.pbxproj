@@ -19,6 +19,7 @@
 		A027A66A210D680900613D3B /* Info-macOS.plist in Resources */ = {isa = PBXBuildFile; fileRef = A027A661210D67DC00613D3B /* Info-macOS.plist */; };
 		A027A66B210D680C00613D3B /* Info-iOS.plist in Resources */ = {isa = PBXBuildFile; fileRef = A027A62A210D65E000613D3B /* Info-iOS.plist */; };
 		A02CD820210D731B00F3A383 /* RemoteDebugger_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A027A649210D668E00613D3B /* RemoteDebugger_macOS.framework */; };
+		A02CD822210D81B800F3A383 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A02CD821210D81B800F3A383 /* README.md */; };
 		A0F1BBD7210D70FB00DE6864 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F1BBD6210D70FB00DE6864 /* AppDelegate.swift */; };
 		A0F1BBD9210D70FB00DE6864 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F1BBD8210D70FB00DE6864 /* ViewController.swift */; };
 		A0F1BBDB210D70FC00DE6864 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0F1BBDA210D70FC00DE6864 /* Assets.xcassets */; };
@@ -42,6 +43,7 @@
 		A027A638210D662100613D3B /* RemoteDebugger_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RemoteDebugger_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A027A649210D668E00613D3B /* RemoteDebugger_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RemoteDebugger_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A027A661210D67DC00613D3B /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-macOS.plist"; sourceTree = "<group>"; };
+		A02CD821210D81B800F3A383 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A0F1BBD4210D70FB00DE6864 /* RDSampleApp-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RDSampleApp-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0F1BBD6210D70FB00DE6864 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A0F1BBD8210D70FB00DE6864 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 		A0A2B321210C047C00C33BE4 = {
 			isa = PBXGroup;
 			children = (
+				A02CD821210D81B800F3A383 /* README.md */,
 				A027A631210D65FE00613D3B /* LICENSE */,
 				A027A627210D65E000613D3B /* RemoteDebugger */,
 				A0F8E41A210D6AC700D9D8CC /* Sample Apps */,
@@ -313,6 +316,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A02CD822210D81B800F3A383 /* README.md in Resources */,
 				A027A66B210D680C00613D3B /* Info-iOS.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
