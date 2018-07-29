@@ -96,6 +96,7 @@
 		A027A627210D65E000613D3B /* RemoteDebugger */ = {
 			isa = PBXGroup;
 			children = (
+				A027A62F210D65F600613D3B /* Shared.swift */,
 				A027A628210D65E000613D3B /* RemoteDebuggerClient.swift */,
 				A027A629210D65E000613D3B /* RemoteDebuggerClient-iOS12.swift */,
 				A027A62C210D65EE00613D3B /* RemoteDebuggerServer.swift */,
@@ -110,7 +111,6 @@
 			isa = PBXGroup;
 			children = (
 				A027A631210D65FE00613D3B /* LICENSE */,
-				A027A62F210D65F600613D3B /* Shared.swift */,
 				A027A627210D65E000613D3B /* RemoteDebugger */,
 				A0F8E41A210D6AC700D9D8CC /* Sample Apps */,
 				A0A2B32B210C047C00C33BE4 /* Products */,
