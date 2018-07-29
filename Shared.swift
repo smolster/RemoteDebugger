@@ -8,6 +8,12 @@
 
 import Foundation
 
+public struct DebugData<State: Codable>: Codable {
+    let state: State
+    let action: String
+    let png: Data
+}
+
 // MARK: - View Capturing
 #if canImport(UIKit)
 import UIKit

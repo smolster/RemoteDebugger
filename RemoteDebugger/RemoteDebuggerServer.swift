@@ -7,30 +7,12 @@
 //
 
 import Foundation
-import Cocoa
-
-public struct Update<State> {
-    let state: State
-    let action: String
-    let image: NSImage
-}
-
-internal struct DebugData<State: Codable>: Codable {
-    let state: State
-    let action: String
-    let png: Data
-    
-    public func toUpdate() -> Update<State>? {
-        guard let image = NSImage(data: self.png) else { return nil }
-        return .init(state: self.state, action: self.action, image: image)
-    }
-}
 
 #if !canImport(Network)
 
 final public class RemoteDebuggerServer<State: Codable>: NSObject, NetServiceDelegate {
     
-    private let onReceive: (Update<State>) -> Void
+    private let onReceive: (DebugData<State>) -> Void
     private let service = NetService(domain: "local", type: "_debug._tcp", name: "remote-debugger")
     
     private var writer: BufferedWriter?
@@ -38,7 +20,7 @@ final public class RemoteDebuggerServer<State: Codable>: NSObject, NetServiceDel
     
     public private(set) var isConnected: Bool = false
     
-    public init(onReceive: @escaping (Update<State>) -> Void) {
+    public init(onReceive: @escaping (DebugData<State>) -> Void) {
         self.onReceive = onReceive
         super.init()
         service.publish(options: .listenForConnections)
@@ -50,7 +32,7 @@ final public class RemoteDebuggerServer<State: Codable>: NSObject, NetServiceDel
         var decoder = JSONOverTCPDecoder<DebugData<State>> { [unowned self] result in
             switch result {
             case .success(let debugData):
-                self.onReceive(debugData.toUpdate())
+                self.onReceive(debugData)
             }
         }
         

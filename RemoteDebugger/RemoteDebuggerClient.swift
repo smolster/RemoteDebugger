@@ -7,13 +7,7 @@
 //
 
 import Foundation
-import UIKit
 
-internal struct DebugData<State: Codable>: Codable {
-    let state: State
-    let action: String
-    let png: Data
-}
 #if !canImport(Network)
 
 final public class RemoteDebuggerClient<State: Codable>: NSObject, NetServiceBrowserDelegate {
@@ -31,7 +25,7 @@ final public class RemoteDebuggerClient<State: Codable>: NSObject, NetServiceBro
         self.onReceive = onReceive
         super.init()
         self.browser.delegate = self
-        self.browser.searchForServices(ofType: "_debug._tcp", inDomain: "local")
+        self.browser.searchForServices(ofType: "_remote-debug._tcp", inDomain: "local")
     }
     
     public func netServiceBrowser(_ browser: NetServiceBrowser, didFind service: NetService, moreComing: Bool) {
@@ -84,4 +78,3 @@ final public class RemoteDebuggerClient<State: Codable>: NSObject, NetServiceBro
     }
 }
 #endif
-

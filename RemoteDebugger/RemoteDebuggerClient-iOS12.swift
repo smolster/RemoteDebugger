@@ -6,18 +6,24 @@
 //  Copyright © 2018 Swain Molster. All rights reserved.
 //
 
+import Foundation
+
+#if canImport(UIKit)
 import UIKit
+#endif
 
 #if canImport(Network)
 import Network
+#endif
 
 @available(iOSApplicationExtension 12.0, *)
+@available(OSXApplicationExtension 10.14, *)
 final public class RemoteDebuggerClient<State: Codable> {
     
     private let queue = DispatchQueue(label: "Remote Debugger Client")
     
     private let connection: NWConnection = .init(
-        to: .service(name: "remote-debugger", type: "_debug._tcp", domain: "local", interface: nil),
+        to: .service(name: "remote-debugger", type: "_remote-debug._tcp", domain: "local", interface: nil),
         using: .tcp
     )
     private let onReceive: (State) -> Void
@@ -56,6 +62,8 @@ final public class RemoteDebuggerClient<State: Codable> {
         }
     }
     
+    #if canImport(UIKit)
+    
     public func send(newState: State, action: String, snapshot: UIView) {
         let image = snapshot.capture()!
         
@@ -66,9 +74,15 @@ final public class RemoteDebuggerClient<State: Codable> {
         let data = try! JSONOverTCPEncoder().encode(debugData)
         print("Sending data of size \(data.count)")
         connection.send(content: data, completion: .contentProcessed { error in
-            print("Finished sending: \(String(describing: error))")
+            if let error = error {
+                print("Finished sending, but found error: \(error)")
+            } else {
+                print("Finished sending debug data successfuly.")
+            }
         })
     }
+    
+    #endif
+    
 }
 
-#endif
