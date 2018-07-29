@@ -12,7 +12,7 @@ import Foundation
 
 final public class RemoteDebuggerServer<State: Codable>: NSObject, NetServiceDelegate {
     
-    private let onReceive: (DebugData<State>) -> Void
+    private let onReceive: (Data) -> Void
     private let service = NetService(domain: "local", type: "_debug._tcp", name: "remote-debugger")
     
     private var writer: BufferedWriter?
@@ -20,7 +20,7 @@ final public class RemoteDebuggerServer<State: Codable>: NSObject, NetServiceDel
     
     public private(set) var isConnected: Bool = false
     
-    public init(onReceive: @escaping (DebugData<State>) -> Void) {
+    public init(onReceive: @escaping (Data) -> Void) {
         self.onReceive = onReceive
         super.init()
         service.publish(options: .listenForConnections)
@@ -29,17 +29,12 @@ final public class RemoteDebuggerServer<State: Codable>: NSObject, NetServiceDel
     
     public func netService(_ sender: NetService, didAcceptConnectionWith inputStream: InputStream, outputStream: OutputStream) {
         self.isConnected = true
-        var decoder = JSONOverTCPDecoder<DebugData<State>> { [unowned self] result in
-            switch result {
-            case .success(let debugData):
-                self.onReceive(debugData)
-            }
-        }
+        var jsonOverTCPReader = JSONOverTCPReader(onResult: onReceive)
         
         reader = BufferedReader(inputStream) { result in
             switch result {
             case .chunk(let data):
-                decoder.decode(data)
+                jsonOverTCPReader.read(data)
             default:
                 print("Received read event: \(result)")
             }

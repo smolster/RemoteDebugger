@@ -28,6 +28,14 @@ final public class RemoteDebuggerClient<State: Codable> {
     )
     private let onReceive: (State) -> Void
     
+    private lazy var reader = JSONOverTCPReader { [unowned self] jsonData in
+        do {
+            self.onReceive(try JSONDecoder().decode(State.self, from: jsonData))
+        } catch let error {
+            print("Decoding Error: \(error)")
+        }
+    }
+    
     public var isConnected: Bool {
         return connection.state == .ready
     }
@@ -41,21 +49,15 @@ final public class RemoteDebuggerClient<State: Codable> {
         
         connection.start(queue: queue)
         
-        var decoder = JSONOverTCPDecoder<State> { [unowned self] result in
-            switch result {
-            case .success(let newState):
-                self.onReceive(newState)
-            case .decodingError(let error):
-                print("Decoding Error: \(error)")
-            }
-        }
-        
-        // Begin receiving
-        connection.receive(minimumIncompleteLength: 0, maximumLength: 1024) { data, _, _, error in
+        self.resumeReceiving()
+    }
+    
+    private func resumeReceiving() {
+        connection.receive(minimumIncompleteLength: 0, maximumLength: 1024) { [unowned self] data, context, _, error in
             if let data = data {
-                decoder.decode(data)
+                self.reader.read(data)
+                self.resumeReceiving()
             }
-            
             if let error = error {
                 print("Received error from connection: \(error)")
             }

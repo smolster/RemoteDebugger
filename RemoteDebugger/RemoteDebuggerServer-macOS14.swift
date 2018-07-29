@@ -13,24 +13,19 @@ import Network
 
 @available(iOSApplicationExtension 12.0, *)
 @available(OSXApplicationExtension 10.14, *)
-final public class RemoteDebuggerServer<State: Codable> {
+final public class RemoteDebuggerServer {
     
-    private let onReceive: (DebugData<State>) -> Void
+    private let onReceive: (Data) -> Void
     private let listener = try! NWListener(parameters: .tcp)!
     private let queue = DispatchQueue(label: "Remote Debugger Server")
     
-    private lazy var decoder: JSONOverTCPDecoder<DebugData<State>> = .init { [unowned self] result in
-        switch result {
-        case .success(let debugData):
-            self.onReceive(debugData)
-        case .decodingError(let error):
-            print(error)
-        }
+    private lazy var reader: JSONOverTCPReader = .init { [unowned self] jsonData in
+        self.onReceive(jsonData)
     }
     
     private var currentConnection: NWConnection?
     
-    public init(onReceive: @escaping (DebugData<State>) -> Void) {
+    public init(onReceive: @escaping (Data) -> Void) {
         self.onReceive = onReceive
         
         listener.service = NWListener.Service(name: "remote-debugger", type: "_remote-debug._tcp", domain: "local")
@@ -59,7 +54,7 @@ final public class RemoteDebuggerServer<State: Codable> {
     private func receive(on connection: NWConnection) {
         connection.receive(minimumIncompleteLength: 0, maximumLength: 1024) { [unowned self] data, context, _, error in
             if let data = data {
-                self.decoder.decode(data)
+                self.reader.read(data)
                 self.receive(on: connection)
             } else if let error = error {
                 print("Encountered error in receiving data. Error: \(error). Context: \(context.debugDescription)")
@@ -67,16 +62,14 @@ final public class RemoteDebuggerServer<State: Codable> {
         }
     }
     
-    public func send(newState: State) {
+    public func send(data: Data) {
         guard let currentConnection = currentConnection else {
             // TODO: Enqueue early sends.
             return
         }
         
-        guard let data = try? JSONOverTCPEncoder().encode(newState) else {
-            // TODO: handle this error
-            return
-        }
+        var data = data
+        JSONOverTCPEncoder().prepare(jsonData: &data)
         
         print("Sending data with size \(data.count) to client.")
         

@@ -13,11 +13,14 @@ struct MyState: Codable {
     let sample: String
 }
 
-class ViewController: NSViewController {
+class ViewController: NSSplitViewController {
     
-    let server = RemoteDebuggerServer<MyState> { debugData in
+    let server = RemoteDebuggerServer { debugData in
         print("Received data: \(debugData)")
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
 }
 

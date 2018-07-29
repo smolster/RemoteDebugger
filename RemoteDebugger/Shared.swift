@@ -32,35 +32,42 @@ internal extension UIView {
 
 // MARK: - Networking
 internal struct JSONOverTCPEncoder {
-    public func encode<E: Encodable>(_ object: E) throws -> Data {
-        let jsonData = try JSONEncoder().encode(object)
+    internal func encode<E: Encodable>(_ object: E) throws -> Data {
+        var data = try JSONEncoder().encode(object)
         
-        var encodedLength = Data(count: 4)
+        prepare(jsonData: &data)
         
-        encodedLength.withUnsafeMutableBytes { bytes in
+        return data
+    }
+    
+    /**
+     Prepares JSON data for transport using the JSON over TCP protocol.
+     
+     This function will prepend the 206 byte and the four size bytes to the start of `jsonData`.
+     
+     - parameter jsonData: The data to prepare for transport.
+     */
+    internal func prepare(jsonData: inout Data) {
+        var encodedSize = Data(count: 4)
+        encodedSize.withUnsafeMutableBytes { bytes in
             bytes.pointee = Int32(jsonData.count)
         }
         
-        return Data(bytes: [206] + encodedLength + [UInt8](jsonData))
+        jsonData.insert(contentsOf: [206] + encodedSize, at: 0)
     }
 }
 
-internal struct JSONOverTCPDecoder<T: Decodable> {
+internal struct JSONOverTCPReader {
     
-    private var onResult: (Result) -> Void
+    private var onResult: (Data) -> Void
     private var buffer = Data()
     private var bytesExpected: Int?
     
-    enum Result {
-        case decodingError(Error)
-        case success(T)
-    }
-    
-    internal init(onResult: @escaping (Result) -> Void) {
+    internal init(onResult: @escaping (Data) -> Void) {
         self.onResult = onResult
     }
     
-    internal mutating func decode(_ data: Data) {
+    internal mutating func read(_ data: Data) {
         buffer.append(data)
         
         if buffer.count > 5 && bytesExpected == nil {
@@ -78,11 +85,7 @@ internal struct JSONOverTCPDecoder<T: Decodable> {
             let jsonData = buffer.prefix(bytesExpected)
             buffer.removeFirst(bytesExpected)
             
-            do {
-                onResult(.success(try JSONDecoder().decode(T.self, from: jsonData)))
-            } catch {
-                onResult(.decodingError(error))
-            }
+            onResult(jsonData)
             self.bytesExpected = nil
         }
     }

@@ -42,12 +42,12 @@ final public class RemoteDebuggerClient<State: Codable>: NSObject, NetServiceBro
         
         if let input = inputStream {
             
-            var decoder = JSONOverTCPDecoder<State> { [unowned self] newState in
-                if let state = newState {
-                    self.onReceive(state)
-                } else {
-                    print("Error")
+            var decoder = JSONOverTCPReader { [unowned self] jsonData in
+                guard let newState = try? JSONDecoder().decode(State.self, from: jsonData) else {
+                    print("Error: Couldn't decode a new state from the complete JSON data.")
+                    return
                 }
+                self.onReceive(newState)
             }
             
             reader = BufferedReader(input) { result in
